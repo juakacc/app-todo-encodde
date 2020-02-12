@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native'
 import ComumStyles from '../ComumStyles'
 import { Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Titulo from '../components/Titulo'
 
 class CadastrarUsuario extends React.Component {
 
@@ -67,7 +68,7 @@ class CadastrarUsuario extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Cadastrar novo usuário</Text>
+                <Titulo titulo='Cadastrar novo usuário' />
 
                 <Input
                     label='Nome'
@@ -117,9 +118,6 @@ class CadastrarUsuario extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...ComumStyles.container
-    }, 
-    title: {
-        ...ComumStyles.title
     },
     btnAdd: {
         ...ComumStyles.btn

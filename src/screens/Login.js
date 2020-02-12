@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, TextInput, View, StyleSheet, TouchableOpacity } from 'react-native'
 import ComumStyles from '../ComumStyles'
+import Titulo from '../components/Titulo'
 
 class Login extends React.Component {
 
@@ -16,8 +17,7 @@ class Login extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-
-                <Text style={styles.title}>Login</Text>
+                <Titulo titulo='Login' />
                 <Text>Entre para acessar as suas tarefas</Text>
 
                 <TextInput 
@@ -51,9 +51,6 @@ class Login extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...ComumStyles.container
-    },
-    title: {
-        ...ComumStyles.title
     },
     input: {
         backgroundColor: '#ccc',

@@ -4,6 +4,7 @@ import ActionButton from 'react-native-action-button'
 import ComumStyles from '../ComumStyles'
 import Tarefa from '../components/Tarefa'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Titulo from '../components/Titulo'
 
 class ListarTarefas extends React.Component {
 
@@ -66,7 +67,7 @@ class ListarTarefas extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Listagem de Atividades</Text>
+                <Titulo titulo='Listagem de Atividades' />
 
                 <ScrollView>
                     {this.state.tarefas.map(item =>
@@ -85,9 +86,6 @@ class ListarTarefas extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...ComumStyles.container
-    },
-    title: {
-        ...ComumStyles.title
     }
 })
 

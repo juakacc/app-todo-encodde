@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import ComumStyles from '../ComumStyles'
 import { CheckBox, Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Titulo from '../components/Titulo'
 
 class CadastrarTarefa extends React.Component {
 
@@ -42,7 +43,7 @@ class CadastrarTarefa extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Cadastrar nova tarefa</Text>
+                <Titulo titulo='Cadastrar nova tarefa' />
 
                 <Input
                     label='Título'
@@ -99,9 +100,6 @@ const styles = StyleSheet.create({
         ...ComumStyles.container,
         // alignItems: 'baseline'
     },
-    title: {
-        ...ComumStyles.title
-    }, 
     input: {
         ...ComumStyles.input,
         width: 300
