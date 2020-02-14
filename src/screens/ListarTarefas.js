@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native'
 import ActionButton from 'react-native-action-button'
 import ComumStyles from '../ComumStyles'
 import Tarefa from '../components/Tarefa'
@@ -24,7 +24,7 @@ class ListarTarefas extends React.Component {
                 {this.props.tarefas.length > 0 ? (
                     <ScrollView>
                         {this.props.tarefas.map(item =>
-                            <Tarefa {...item} key={item.id} />
+                            <Tarefa {...item} navigation={this.props.navigation} key={item.id} />
                         )}
                     </ScrollView>
                 ) : 

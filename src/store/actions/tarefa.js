@@ -56,3 +56,23 @@ export const salvar_tarefa = tarefa => {
         })
     }
 }
+
+export const editar_tarefa = tarefa => {
+    return (dispatch, getState) => {
+        dispatch(salvando_tarefa())
+        axios.put(`tarefas/${tarefa.id}`, tarefa, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getState().user.token}`
+            }
+        })
+        .then(res => {
+            dispatch(set_mensagem('Tarefa atualizada com sucesso!'))
+            dispatch(tarefa_salva())
+            dispatch(load_tarefas())
+        })
+        .catch(err => {
+            dispatch(set_mensagem(err.response.data.mensagem || err.message))
+        })
+    }
+}

@@ -11,6 +11,7 @@ import ListarTarefas from "./screens/ListarTarefas"
 import CadastrarTarefa from "./screens/CadastrarTarefa"
 import CadastrarUsuario from './screens/CadastrarUsuario'
 import Logout from './screens/Logout'
+import Splash from './screens/Splash'
 
 const Header = () => {
     return (
@@ -69,12 +70,17 @@ const HomeStack = createStackNavigator({
 })
 
 const SwitchNavigator = createSwitchNavigator({
+    Splash: {
+        screen: Splash
+    },
     Auth: {
         screen: AuthStack
     },
     Home: {
         screen: HomeStack
     }
+}, {
+    initialRouteName: 'Splash'
 })
 
 export default createAppContainer(SwitchNavigator)

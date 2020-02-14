@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import ComumStyles from '../ComumStyles'
 
 class Tarefa extends React.Component {
@@ -15,16 +15,20 @@ class Tarefa extends React.Component {
         }
     }
 
-    render() {
+    clickTarefa = id => {
+       this.props.navigation.navigate('AdicionarTarefa', {
+           idTarefa: id
+        })
+    }
 
+    render() {
         const colorStatus = this.getColor(this.props.status)
 
         return (
-            <View style={[styles.container, { backgroundColor: colorStatus }]}>
-                <Text style={styles.titulo}>{this.props.titulo}</Text>
-                <Text style={styles.descricao}>{this.props.descricao}</Text>
-                {/* <Text style={styles.status}>{this.props.status}</Text> */}
-            </View>
+            <TouchableOpacity style={[styles.container, { backgroundColor: colorStatus }]} onPress={() => this.clickTarefa(this.props.id)}>
+                <Text style={styles.titulo}>{ this.props.titulo }</Text>
+                <Text style={styles.descricao}>{ this.props.descricao }</Text>
+            </TouchableOpacity>
         )
     }
 }

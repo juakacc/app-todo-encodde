@@ -6,10 +6,12 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { connect } from 'react-redux'
 import { userLogout } from '../store/actions/user'
+import AsyncStorage from '@react-native-community/async-storage'
 
 class Logout extends React.Component {
 
-    sair = () => {
+    sair = async () => {
+        await AsyncStorage.setItem('userData', JSON.stringify({}))
         this.props.onLogout()
         this.props.navigation.navigate('Auth')
     }

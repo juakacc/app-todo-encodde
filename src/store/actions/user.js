@@ -3,6 +3,7 @@ import axios from 'axios'
 import { LOADING_USER, USER_LOADED, USER_LOGGED_IN, USER_LOGGED_OUT } from './ActionTypes'
 
 import { set_mensagem } from './mensagem'
+import AsyncStorage from '@react-native-community/async-storage'
 
 export const loadingUser = () => {
     return {
@@ -67,12 +68,13 @@ export const login = usuario => {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            .then(res => {
+            .then(async res => {
                 delete usuario.password
                 usuario.id = usuario_id
                 usuario.nome = res.data.nome
                 usuario.token = token
                 dispatch(setUser(usuario))
+                await AsyncStorage.setItem('userData', JSON.stringify(usuario))
                 dispatch(userLoaded())
             })
             .catch(err => {

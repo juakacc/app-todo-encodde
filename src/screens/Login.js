@@ -64,7 +64,7 @@ class Login extends React.Component {
 
                 <ScrollView>
                     <View style={styles.scroll}>
-                    <Text>Entre para acessar as suas tarefas</Text>
+                    <Text style={styles.subtitulo}>Entre para acessar as suas tarefas</Text>
 
                     <Input
                         label='Username'
@@ -103,6 +103,9 @@ const styles = StyleSheet.create({
     },
     scroll: {
         alignItems: 'center'
+    },
+    subtitulo: {
+        marginVertical: 10
     },
     btnLogin: {
         padding: 10,

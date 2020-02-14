@@ -5,18 +5,46 @@ import { CheckBox, Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Titulo from '../components/Titulo'
 
+import axios from 'axios'
 import { connect } from 'react-redux'
-import { salvar_tarefa } from '../store/actions/tarefa'
+import { salvar_tarefa, editar_tarefa } from '../store/actions/tarefa'
+import { set_mensagem } from '../store/actions/mensagem'
 
 class CadastrarTarefa extends React.Component {
 
     state = {
+        id: 0,
         titulo: '',
         descricao: '',
         status: 'pendente',
+        isEditar: false,
 
         err_titulo: '',
         err_descricao: ''
+    }
+
+    componentDidMount = () => {
+        const idTarefa = this.props.navigation.getParam('idTarefa')
+
+        if (idTarefa) {
+            axios.get(`tarefas/${idTarefa}`, {
+                headers: {
+                    'Authorization': `Bearer ${this.props.token}`
+                }
+            })
+            .then(res => {
+                this.setState({
+                    isEditar: true,
+                    id: res.data.id,
+                    titulo: res.data.titulo,
+                    descricao: res.data.descricao,
+                    status: res.data.status
+                })
+            })
+            .catch(err => {
+                this.props.onSetMensagem(err.response.data.mensagem || err.message)
+            })            
+        }
     }
 
     componentDidUpdate = prevProps => {
@@ -45,12 +73,22 @@ class CadastrarTarefa extends React.Component {
 
     cadastrar = () => {
         if (this.isValid()) {
-            const tarefa = {
-                titulo: this.state.titulo,
-                descricao: this.state.descricao,
-                status: this.state.status
+            if (this.state.isEditar) {
+                const tarefa = {
+                    id: this.state.id,
+                    titulo: this.state.titulo,
+                    descricao: this.state.descricao,
+                    status: this.state.status
+                }
+                this.props.onEditar(tarefa)                
+            } else {
+                const tarefa = {
+                    titulo: this.state.titulo,
+                    descricao: this.state.descricao,
+                    status: this.state.status
+                }
+                this.props.onSalvar(tarefa)
             }
-            this.props.onSalvar(tarefa)
         }
     }
 
@@ -136,15 +174,18 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = ({ tarefa }) => {
+const mapStateToProps = ({ tarefa, user }) => {
     return {
-        isLoading: tarefa.isLoading
+        isLoading: tarefa.isLoading,
+        token: user.token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSalvar: tarefa => dispatch(salvar_tarefa(tarefa))
+        onSalvar: tarefa => dispatch(salvar_tarefa(tarefa)),
+        onSetMensagem: msg => dispatch(set_mensagem(msg)),
+        onEditar: tarefa => dispatch(editar_tarefa(tarefa))
     }
 }
 
