@@ -51,4 +51,6 @@ $ react-native run-android
 
 - Lembrando que para utilizar o app em um dispositivo físico o firewall do servidor deve está desabilitado para aceitar as requisições
 
+### Considerações finais
+
 - Qualquer dúvida enviar e-mail para: juakacc@gmail.com
