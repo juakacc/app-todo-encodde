@@ -51,6 +51,10 @@ $ react-native run-android
 
 - Lembrando que para utilizar o app em um dispositivo físico o firewall do servidor deve está desabilitado para aceitar as requisições
 
+### Gerando uma release APK
+
+- Pode ser gerado um APK seguindo os passos descritos na (vasta)) [Documentação](https://facebook.github.io/react-native/docs/signed-apk-android) (:
+
 ### Considerações finais
 
 - Qualquer dúvida enviar e-mail para: juakacc@gmail.com
