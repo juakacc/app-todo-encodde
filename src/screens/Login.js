@@ -71,12 +71,14 @@ class Login extends React.Component {
                         errorMessage={this.state.err_username}
                         value={this.state.username}
                         returnKeyType='next'
+                        autoCapitalize='none'
                         onChangeText={username => this.setState({ username })} />
 
                     <Input
                         label='Senha'
                         errorMessage={this.state.err_password}
                         value={this.state.password}
+                        autoCapitalize='none'
                         returnKeyType='done'
                         onChangeText={password => this.setState({ password })}
                         secureTextEntry={true} />

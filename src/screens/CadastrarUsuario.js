@@ -8,7 +8,6 @@ import Titulo from '../components/Titulo'
 import { connect } from 'react-redux'
 import { criarUsuario } from '../store/actions/user'
 
-
 class CadastrarUsuario extends React.Component {
 
     state = {
@@ -100,6 +99,7 @@ class CadastrarUsuario extends React.Component {
                         label='Username'
                         value={this.state.username}
                         errorMessage={this.state.err_username}
+                        autoCapitalize='none'
                         returnKeyType='next'
                         onChangeText={n => this.setUsername(n)} />
 
@@ -108,6 +108,7 @@ class CadastrarUsuario extends React.Component {
                         value={this.state.password}
                         secureTextEntry={true}
                         errorMessage={this.state.err_password}
+                        autoCapitalize='none'
                         returnKeyType='next'
                         onChangeText={password => this.setState({ password })} />
 
@@ -115,6 +116,7 @@ class CadastrarUsuario extends React.Component {
                         label='Confirmação de senha'
                         value={this.state.confirmPassword}
                         errorMessage={this.state.err_confirmPassword}
+                        autoCapitalize='none'
                         secureTextEntry={true}
                         returnKeyType='done'
                         onChangeText={confirmPassword => this.setState({ confirmPassword })} />

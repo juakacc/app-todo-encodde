@@ -50,39 +50,43 @@ export const setUser = usuario => {
 
 export const login = usuario => {
     return dispatch => {
-        dispatch(loadingUser())
-        axios.post('usuarios/login', {
-            username: usuario.username,
-            password: usuario.password
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res => {
-            const token = res.data.token
-            const usuario_id = res.data.usuario_id
-
-            axios.get(`usuarios/${usuario_id}`, {
+        try {
+            dispatch(loadingUser())
+            axios.post('usuarios/login', {
+                username: usuario.username,
+                password: usuario.password
+            }, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 }
             })
-            .then(async res => {
-                delete usuario.password
-                usuario.id = usuario_id
-                usuario.nome = res.data.nome
-                usuario.token = token
-                dispatch(setUser(usuario))
-                await AsyncStorage.setItem('userData', JSON.stringify(usuario))
-                dispatch(userLoaded())
+            .then(res => {
+                const token = res.data.token
+                const usuario_id = res.data.usuario_id
+
+                axios.get(`usuarios/${usuario_id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(async res => {
+                    delete usuario.password
+                    usuario.id = usuario_id
+                    usuario.nome = res.data.nome
+                    usuario.token = token
+                    dispatch(setUser(usuario))
+                    await AsyncStorage.setItem('userData', JSON.stringify(usuario))
+                    dispatch(userLoaded())
+                })
+                .catch(err => {
+                    dispatch(set_mensagem(err.response.data.mensagem || err.message))
+                })
             })
             .catch(err => {
                 dispatch(set_mensagem(err.response.data.mensagem || err.message))
             })
-        })
-        .catch(err => {
-            dispatch(set_mensagem(err.response.data.mensagem || err.message))
-        })
+        } catch(err) {
+            dispatch(set_mensagem('Servidor não encontrado'))
+        }
     }
 }

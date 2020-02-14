@@ -7,7 +7,8 @@ import {name as appName} from './app.json';
 import storeConfig from './src/store/storeConfig'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://192.168.31.20:8888/'
+axios.defaults.baseURL = 'http://192.168.100.20:8888/'
+console.disableYellowBox = true //Para produção
 
 const store = storeConfig()
 

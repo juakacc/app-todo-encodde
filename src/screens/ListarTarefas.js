@@ -9,6 +9,7 @@ import Titulo from '../components/Titulo'
 import { connect } from 'react-redux'
 import { load_tarefas } from '../store/actions/tarefa'
 import LegendaStatus from '../components/LegendaStatus'
+import HeaderUsuario from '../components/HeaderUsuario'
 
 class ListarTarefas extends React.Component {
 
@@ -19,6 +20,7 @@ class ListarTarefas extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <HeaderUsuario />
                 <Titulo titulo='Listagem de Atividades' />
 
                 {this.props.tarefas.length > 0 ? (

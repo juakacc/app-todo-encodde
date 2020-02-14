@@ -1,8 +1,7 @@
 export default {
     container: {
         flex: 1,
-        padding: 10,
-        // alignItems: 'center'
+        padding: 10
     },
     title: {
         fontSize: 20,
@@ -13,7 +12,7 @@ export default {
         principal: '#1abecbff',
         secundaria: '#f58220ff',
 
-        pendente: '#F5D0A9',
+        pendente: '#FA8072',
         fazendo: '#A9D0F5',
         concluida: '#A9F5BC'
     },

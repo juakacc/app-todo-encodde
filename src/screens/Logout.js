@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { connect } from 'react-redux'
 import { userLogout } from '../store/actions/user'
 import AsyncStorage from '@react-native-community/async-storage'
+import HeaderUsuario from '../components/HeaderUsuario'
 
 class Logout extends React.Component {
 
@@ -19,11 +20,14 @@ class Logout extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Titulo titulo='Deseja realmente sair do app?' />
+                <HeaderUsuario />
+                <View style={styles.viewCenter}>
+                    <Titulo titulo='Deseja realmente sair do app?' />
 
-                <TouchableOpacity style={styles.btn} onPress={this.sair}>
-                    <Text><Icon name='power-off' size={20} /> Sim</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={this.sair}>
+                        <Text><Icon name='power-off' size={20} /> Sim</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
@@ -31,7 +35,9 @@ class Logout extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        ...ComumStyles.container,
+        ...ComumStyles.container
+    },
+    viewCenter: {
         alignItems: 'center'
     },
     btn: {
