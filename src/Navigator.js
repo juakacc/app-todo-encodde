@@ -28,6 +28,7 @@ const AuthStack = createStackNavigator({
         screen: CadastrarUsuario
     }
 }, {
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
         headerTitleAlign: 'center',
         headerTitle: () => <Header />
@@ -59,13 +60,13 @@ const HomeStack = createStackNavigator({
         screen: Logout
     }
 }, {
+    initialRouteName: 'Listar',
     defaultNavigationOptions: ({ navigation }) => ({
         headerTitleAlign: 'center',
         headerTitle: () => <Header />,
         headerRight: () => <SairBtn navigation={navigation} />
     })
 })
-
 
 const SwitchNavigator = createSwitchNavigator({
     Auth: {

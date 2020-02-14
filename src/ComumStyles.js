@@ -2,7 +2,7 @@ export default {
     container: {
         flex: 1,
         padding: 10,
-        alignItems: 'center'
+        // alignItems: 'center'
     },
     title: {
         fontSize: 20,

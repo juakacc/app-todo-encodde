@@ -1,0 +1,10 @@
+export const USER_LOGGED_IN = 'USER_LOGGED_IN'
+export const USER_LOGGED_OUT = 'USER_LOGOUT_OUT'
+export const LOADING_USER = 'LOADING_USER'
+export const USER_LOADED = 'USER_LOADED'
+
+export const SET_MENSAGEM = 'SET_MENSAGEM'
+
+export const SET_TAREFAS = 'SET_TAREFAS'
+export const SALVANDO_TAREFA = 'SALVANDO_TAREFA'
+export const TAREFA_SALVA = 'TAREFA_SALVA'

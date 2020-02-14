@@ -1,48 +1,97 @@
 import React from 'react'
-import { Text, TextInput, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import ComumStyles from '../ComumStyles'
 import Titulo from '../components/Titulo'
+
+import { login } from '../store/actions/user'
+import { connect } from 'react-redux'
+import { Input } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 class Login extends React.Component {
 
     state = {
         username: '',
-        password: ''
+        password: '',
+
+        err_username: '',
+        err_password: ''
+    }
+
+    componentDidUpdate = prevProps => {
+        if (prevProps.isLoading && !this.props.isLoading) {
+            this.props.navigation.navigate('Home')
+        }
+    }
+
+    isValid = () => {
+        let valid = true
+
+        if (this.state.username.trim() == '') {
+            this.setState({
+                err_username: 'Este campo é obrigatório'
+            })
+            valid = false
+        }
+        if (this.state.password.trim() == '') {
+            this.setState({
+                err_password: 'Este campo é obrigatório'
+            })
+            valid = false
+        }
+        return valid
     }
 
     login = () => {
-        this.props.navigation.navigate('Home')
+        if (this.isValid()) {
+            this.props.onLogin({ 
+                username: this.state.username,
+                password: this.state.password 
+            })
+            this.setState({
+                username: '',
+                password: '',
+                err_username: '',
+                err_password: ''
+            })
+        }
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <Titulo titulo='Login' />
-                <Text>Entre para acessar as suas tarefas</Text>
 
-                <TextInput 
-                    style={styles.input}
-                    value={this.state.username}
-                    onChangeText={username => this.setState({ username })}
-                    placeholder='Username' />
+                <ScrollView>
+                    <View style={styles.scroll}>
+                    <Text>Entre para acessar as suas tarefas</Text>
 
-                <TextInput
-                    style={styles.input}
-                    value={this.state.password}
-                    onChangeText={password => this.setState({ password })}
-                    placeholder='Senha' 
-                    secureTextEntry={true}
-                    autoCompleteType='password' />
+                    <Input
+                        label='Username'
+                        errorMessage={this.state.err_username}
+                        value={this.state.username}
+                        returnKeyType='next'
+                        onChangeText={username => this.setState({ username })} />
 
-                <TouchableOpacity onPress={this.login} style={styles.btnLogin}>
-                    <Text>Login</Text>
-                </TouchableOpacity>
+                    <Input
+                        label='Senha'
+                        errorMessage={this.state.err_password}
+                        value={this.state.password}
+                        returnKeyType='done'
+                        onChangeText={password => this.setState({ password })}
+                        secureTextEntry={true} />
 
-                <Text>Ainda não é cadastrado no App?</Text>
+                    <TouchableOpacity onPress={this.login} style={styles.btnLogin}>
+                        <Text><Icon name='plug' size={20} /> Login</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('CadastrarUsuario')} style={styles.btnCadastrar}>
-                    <Text>Cadastre-se</Text>
-                </TouchableOpacity>
+                    <Text>Ainda não é cadastrado no App?</Text>
+
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('CadastrarUsuario')} style={styles.btnCadastrar}>
+                        <Text><Icon name='user-plus' size={20} /> Cadastre-se</Text>
+                    </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -52,12 +101,8 @@ const styles = StyleSheet.create({
     container: {
         ...ComumStyles.container
     },
-    input: {
-        backgroundColor: '#ccc',
-        width: 200,
-        padding: 10,
-        margin: 10,
-        borderRadius: 15
+    scroll: {
+        alignItems: 'center'
     },
     btnLogin: {
         padding: 10,
@@ -77,4 +122,16 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Login
+const mapStateToProps = ({ user }) => {
+    return {
+        isLoading: user.isLoading
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogin: usuario => dispatch(login(usuario))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -6,62 +6,14 @@ import Tarefa from '../components/Tarefa'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Titulo from '../components/Titulo'
 
+import { connect } from 'react-redux'
+import { load_tarefas } from '../store/actions/tarefa'
+import LegendaStatus from '../components/LegendaStatus'
+
 class ListarTarefas extends React.Component {
 
-    state = {
-        tarefas: [
-            {
-                id: 1,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'pendente'
-            }, {
-                id: 2,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'concluida'
-            }, {
-                id: 3,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'fazendo'
-            }, {
-                id: 4,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'concluida'
-            }, {
-                id: 5,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'pendente'
-            }, {
-                id: 6,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'fazendo'
-            }, {
-                id: 7,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'pendente'
-            }, {
-                id: 8,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'pendente'
-            }, {
-                id: 9,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'pendente'
-            }, {
-                id: 10,
-                titulo: 'Limpar a casa',
-                descricao: 'Varrer toda a casa incluindo os quartos e os banheiros',
-                status: 'pendente'
-            },
-        ]
+    componentDidMount = () => {
+        this.props.onLoadingTarefas()
     }
 
     render() {
@@ -69,11 +21,19 @@ class ListarTarefas extends React.Component {
             <View style={styles.container}>
                 <Titulo titulo='Listagem de Atividades' />
 
-                <ScrollView>
-                    {this.state.tarefas.map(item =>
-                        <Tarefa {...item} key={item.id} />
-                    )}
-                </ScrollView>
+                {this.props.tarefas.length > 0 ? (
+                    <ScrollView>
+                        {this.props.tarefas.map(item =>
+                            <Tarefa {...item} key={item.id} />
+                        )}
+                    </ScrollView>
+                ) : 
+                (<View>
+                    <Text style={styles.semTarefas}>Nenhuma Tarefa cadastrada</Text>
+                    <Icon name='child' size={50} style={styles.icon} />
+                </View>) }
+
+                <LegendaStatus />
                 
                 <ActionButton 
                     buttonColor={ComumStyles.color.principal} 
@@ -86,7 +46,27 @@ class ListarTarefas extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...ComumStyles.container
+    },
+    semTarefas: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginVertical: 10
+    }, 
+    icon: {
+        alignSelf: 'center'
     }
 })
 
-export default ListarTarefas
+const mapStateToProps = ({ tarefa }) => {
+    return {
+        tarefas: tarefa.tarefas
+    }
+}
+
+const mapDispacthToProps = dispatch => {
+    return {
+        onLoadingTarefas: () => dispatch(load_tarefas())
+    }
+}
+
+export default connect(mapStateToProps, mapDispacthToProps)(ListarTarefas)

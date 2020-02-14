@@ -4,10 +4,13 @@ import Titulo from '../components/Titulo'
 import ComumStyles from '../ComumStyles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+import { connect } from 'react-redux'
+import { userLogout } from '../store/actions/user'
+
 class Logout extends React.Component {
 
     sair = () => {
-        Alert.alert('Saindo...')
+        this.props.onLogout()
         this.props.navigation.navigate('Auth')
     }
 
@@ -17,7 +20,7 @@ class Logout extends React.Component {
                 <Titulo titulo='Deseja realmente sair do app?' />
 
                 <TouchableOpacity style={styles.btn} onPress={this.sair}>
-                    <Text><Icon name='power-off' /> Sim</Text>
+                    <Text><Icon name='power-off' size={20} /> Sim</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -26,7 +29,8 @@ class Logout extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        ...ComumStyles.container
+        ...ComumStyles.container,
+        alignItems: 'center'
     },
     btn: {
         ...ComumStyles.btn,
@@ -34,4 +38,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Logout
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogout: () => dispatch(userLogout())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Logout)

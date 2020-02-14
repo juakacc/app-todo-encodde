@@ -1,9 +1,12 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import ComumStyles from '../ComumStyles'
 import { CheckBox, Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Titulo from '../components/Titulo'
+
+import { connect } from 'react-redux'
+import { salvar_tarefa } from '../store/actions/tarefa'
 
 class CadastrarTarefa extends React.Component {
 
@@ -14,6 +17,12 @@ class CadastrarTarefa extends React.Component {
 
         err_titulo: '',
         err_descricao: ''
+    }
+
+    componentDidUpdate = prevProps => {
+        if (prevProps.isLoading && !this.props.isLoading) {
+            this.props.navigation.navigate('Listar')
+        }
     }
 
     isValid = () => {
@@ -36,7 +45,12 @@ class CadastrarTarefa extends React.Component {
 
     cadastrar = () => {
         if (this.isValid()) {
-            Alert.alert('Tudo pronto para salvar')
+            const tarefa = {
+                titulo: this.state.titulo,
+                descricao: this.state.descricao,
+                status: this.state.status
+            }
+            this.props.onSalvar(tarefa)
         }
     }
 
@@ -45,51 +59,55 @@ class CadastrarTarefa extends React.Component {
             <View style={styles.container}>
                 <Titulo titulo='Cadastrar nova tarefa' />
 
-                <Input
-                    label='Título'
-                    style={styles.input}
-                    value={this.state.titulo}
-                    errorMessage={this.state.err_titulo}
-                    returnKeyType='next'
-                    onChangeText={titulo => this.setState({ titulo })} />
+                <ScrollView>
+                    <View style={styles.scroll}>
+                    <Input
+                        label='Título'
+                        style={styles.input}
+                        value={this.state.titulo}
+                        errorMessage={this.state.err_titulo}
+                        returnKeyType='next'
+                        onChangeText={titulo => this.setState({ titulo })} />
 
-                <Input
-                    label='Descrição'
-                    style={styles.input}
-                    value={this.state.descricao}
-                    errorMessage={this.state.err_descricao}
-                    multiline={true}
-                    numberOfLines={2}
-                    onChangeText={descricao => this.setState({ descricao })} />
+                    <Input
+                        label='Descrição'
+                        style={styles.input}
+                        value={this.state.descricao}
+                        errorMessage={this.state.err_descricao}
+                        multiline={true}
+                        numberOfLines={2}
+                        onChangeText={descricao => this.setState({ descricao })} />
 
-                <Text style={styles.statusTxt}>Status da tarefa</Text>
+                    <Text style={styles.statusTxt}>Status da tarefa</Text>
 
-                <CheckBox 
-                    iconRight
-                    title='Pendente'
-                    checkedColor={ComumStyles.color.pendente}
-                    checked={this.state.status === 'pendente'}
-                    onPress={() => this.setState({ status: 'pendente' })} />
+                    <CheckBox 
+                        iconRight
+                        title='Pendente'
+                        checkedColor={ComumStyles.color.pendente}
+                        checked={this.state.status === 'pendente'}
+                        onPress={() => this.setState({ status: 'pendente' })} />
 
-                <CheckBox 
-                    iconRight
-                    title='Fazendo'
-                    checkedColor={ComumStyles.color.fazendo}
-                    checked={this.state.status === 'fazendo'}
-                    onPress={() => this.setState({ status: 'fazendo' })} />
+                    <CheckBox 
+                        iconRight
+                        title='Fazendo'
+                        checkedColor={ComumStyles.color.fazendo}
+                        checked={this.state.status === 'fazendo'}
+                        onPress={() => this.setState({ status: 'fazendo' })} />
 
-                <CheckBox 
-                    iconRight
-                    title='Concluída'
-                    checkedColor={ComumStyles.color.concluida}
-                    checked={this.state.status === 'concluida'}
-                    onPress={() => this.setState({ status: 'concluida' })} />
+                    <CheckBox 
+                        iconRight
+                        title='Concluída'
+                        checkedColor={ComumStyles.color.concluida}
+                        checked={this.state.status === 'concluida'}
+                        onPress={() => this.setState({ status: 'concluida' })} />
 
-                <TouchableOpacity style={styles.btnAdd} onPress={this.cadastrar}>
-                    <View>
-                        <Text><Icon name='save' /> Salvar Tarefa</Text>
+                    <TouchableOpacity style={styles.btnAdd} onPress={this.cadastrar}>
+                        <View>
+                            <Text><Icon name='save' size={20} /> Salvar Tarefa</Text>
+                        </View>
+                    </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
+                </ScrollView>
             </View>
         )
     }
@@ -98,7 +116,9 @@ class CadastrarTarefa extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...ComumStyles.container,
-        // alignItems: 'baseline'
+    },
+    scroll: {
+        alignItems: 'center'
     },
     input: {
         ...ComumStyles.input,
@@ -116,4 +136,16 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CadastrarTarefa
+const mapStateToProps = ({ tarefa }) => {
+    return {
+        isLoading: tarefa.isLoading
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSalvar: tarefa => dispatch(salvar_tarefa(tarefa))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CadastrarTarefa)
